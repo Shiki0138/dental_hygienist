@@ -1,0 +1,64 @@
+# dependencies
+node_modules/
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# next.js
+.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+.env
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# firebase
+.firebase/
+firebase-debug.log
+.firebaserc
+
+# editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+
+# Claude
+.claude/
+.claude-flow/
+.roo/
+memory/
+.roomodes
+
+# Old projects
+enterprise-system/
+
+# Package lock files (optional - uncomment if you want to exclude)
+# package-lock.json
+# yarn.lock

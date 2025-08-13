@@ -1,0 +1,150 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isModerator() {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'moderator';
+    }
+    
+    function isValidContent() {
+      return request.resource.data.keys().hasAll(['content', 'createdAt']) &&
+        request.resource.data.content is string &&
+        request.resource.data.content.size() > 0 &&
+        request.resource.data.content.size() <= 5000;
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isModerator();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) && 
+        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'createdAt']);
+      allow delete: if false;
+    }
+    
+    // Profiles collection (public info)
+    match /profiles/{profileId} {
+      allow read: if true;
+      allow write: if isOwner(profileId);
+    }
+    
+    // Content cards (今日の一枚)
+    match /content_cards/{cardId} {
+      allow read: if true;
+      allow write: if isModerator();
+    }
+    
+    // Quizzes
+    match /quizzes/{quizId} {
+      allow read: if true;
+      allow write: if isModerator();
+    }
+    
+    // Quiz answers
+    match /quiz_answers/{answerId} {
+      allow read: if isOwner(resource.data.userId) || isModerator();
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+      allow update: if false;
+      allow delete: if false;
+    }
+    
+    // Forum threads
+    match /threads/{threadId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && isValidContent();
+      allow update: if isOwner(resource.data.authorId) || isModerator();
+      allow delete: if isModerator();
+      
+      // Posts in threads
+      match /posts/{postId} {
+        allow read: if true;
+        allow create: if isAuthenticated() && isValidContent();
+        allow update: if isOwner(resource.data.authorId) || isModerator();
+        allow delete: if isModerator();
+      }
+    }
+    
+    // Missions
+    match /missions/{missionId} {
+      allow read: if true;
+      allow write: if isModerator();
+    }
+    
+    // Mission logs
+    match /mission_logs/{logId} {
+      allow read: if isOwner(resource.data.userId) || isModerator();
+      allow create: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+      allow update: if false;
+      allow delete: if false;
+    }
+    
+    // Saves (bookmarks)
+    match /saves/{saveId} {
+      allow read: if isOwner(resource.data.userId);
+      allow write: if isOwner(request.resource.data.userId);
+    }
+    
+    // Shares
+    match /shares/{shareId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update: if false;
+      allow delete: if false;
+    }
+    
+    // Reactions
+    match /reactions/{reactionId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && 
+        request.resource.data.userId == request.auth.uid;
+    }
+    
+    // Notifications
+    match /notifications/{notificationId} {
+      allow read: if isOwner(resource.data.userId);
+      allow create: if isModerator();
+      allow update: if isOwner(resource.data.userId) && 
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read', 'readAt']);
+      allow delete: if isOwner(resource.data.userId);
+    }
+    
+    // Moderation logs
+    match /moderation_logs/{logId} {
+      allow read: if isModerator();
+      allow create: if isModerator();
+      allow update: if false;
+      allow delete: if false;
+    }
+    
+    // Reports
+    match /reports/{reportId} {
+      allow read: if isOwner(resource.data.reporterId) || isModerator();
+      allow create: if isAuthenticated();
+      allow update: if isModerator();
+      allow delete: if false;
+    }
+    
+    // Daily generated content cache
+    match /daily_content/{date} {
+      allow read: if true;
+      allow write: if false; // Only writable by Cloud Functions
+    }
+    
+    // Forum subscriptions
+    match /forum_subscriptions/{subscriptionId} {
+      allow read: if isOwner(resource.data.userId);
+      allow write: if isOwner(request.resource.data.userId);
+    }
+  }
+}
