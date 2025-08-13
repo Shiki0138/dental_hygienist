@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
+  basePath: '/dental_hygienist',
+  assetPrefix: '/dental_hygienist/',
   reactStrictMode: true,
   swcMinify: true,
   typescript: {
