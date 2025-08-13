@@ -4,7 +4,7 @@ const nextConfig = {
   basePath: '/dental_hygienist',
   assetPrefix: '/dental_hygienist/',
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false,
   typescript: {
     // Temporarily ignore build errors for demo deployment
     ignoreBuildErrors: true,
