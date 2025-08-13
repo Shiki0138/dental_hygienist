@@ -27,11 +27,18 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-${{ runner.arch }}-node-${{ hashFiles('package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-node-
+
       - name: Install dependencies
-        run: |
-          # Remove package-lock.json and reinstall dependencies
-          rm -f package-lock.json
-          npm install --legacy-peer-deps
+        run: npm install --legacy-peer-deps
 
       - name: Build with Next.js
         run: npm run build

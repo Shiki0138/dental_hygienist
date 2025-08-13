@@ -59,6 +59,6 @@ memory/
 # Old projects
 enterprise-system/
 
-# Package lock files (optional - uncomment if you want to exclude)
-# package-lock.json
-# yarn.lock
+# Package lock files - CI will generate its own
+package-lock.json
+yarn.lock
