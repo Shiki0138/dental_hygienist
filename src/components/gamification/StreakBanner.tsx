@@ -1,9 +1,7 @@
 'use client';
 
-import { Flame, Trophy, Lock } from 'lucide-react';
+import { Flame, Trophy } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { db } from '@/lib/firebase';
-import { doc, getDoc } from 'firebase/firestore';
 
 interface StreakBannerProps {
   userId: string;
@@ -13,8 +11,12 @@ export function StreakBanner({ userId }: StreakBannerProps) {
   const { data: streakData } = useQuery({
     queryKey: ['userStreak', userId],
     queryFn: async () => {
-      const profileDoc = await getDoc(doc(db, 'profiles', userId));
-      const profile = profileDoc.data();
+      // Demo mode: return static data
+      // When Firebase is ready:
+      // const profileDoc = await getDoc(doc(db, 'profiles', userId));
+      // const profile = profileDoc.data();
+      
+      const profile = { streak: 7, maxStreak: 14, unlockedRewards: [] };
       
       return {
         currentStreak: profile?.streak || 0,

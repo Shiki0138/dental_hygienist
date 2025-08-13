@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { CheckCircle, XCircle, Share2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { db } from '@/lib/firebase';
-import { doc, getDoc } from 'firebase/firestore';
 import { Quiz } from '@/types';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 
@@ -37,7 +35,7 @@ export function DailyQuiz() {
     if (showResult) return;
     setSelectedAnswer(answerId);
     setShowResult(true);
-    // TODO: Save answer to Firestore
+    // Save answer to Firestore when backend is ready
   };
 
   const handleShare = async () => {

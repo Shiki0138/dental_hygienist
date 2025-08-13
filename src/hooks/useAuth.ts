@@ -31,6 +31,9 @@ export function useAuth() {
             isAnonymous: true,
             role: 'user',
             emailVerified: false,
+            phoneNumber: null,
+            photoURL: null,
+            providerId: 'demo',
             metadata: {},
             providerData: [],
             refreshToken: '',
@@ -89,7 +92,7 @@ export function useAuth() {
           setLoading(false);
         });
 
-        return () => unsubscribe();
+        return unsubscribe;
       } catch (err: any) {
         console.error('Auth initialization error:', err);
         setError(err.message);
@@ -102,6 +105,9 @@ export function useAuth() {
           isAnonymous: true,
           role: 'user',
           emailVerified: false,
+          phoneNumber: null,
+          photoURL: null,
+          providerId: 'demo',
           metadata: {},
           providerData: [],
           refreshToken: '',
@@ -115,6 +121,7 @@ export function useAuth() {
 
         setUser(demoUser);
         setLoading(false);
+        return;
       }
     };
 

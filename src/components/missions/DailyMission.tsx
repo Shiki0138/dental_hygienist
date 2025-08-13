@@ -1,10 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Target, Clock, Award, CheckCircle } from 'lucide-react';
+import { Clock, Award, CheckCircle } from 'lucide-react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { db } from '@/lib/firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Mission } from '@/types';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { useAuth } from '@/hooks/useAuth';
@@ -58,11 +56,11 @@ export function DailyMission() {
         rewardClaimed: mission.reward?.id
       };
 
-      // Save to Firestore
-      await setDoc(
-        doc(db, 'mission_logs', `${user.uid}_${mission.id}_${Date.now()}`),
-        logData
-      );
+      // Save to Firestore when backend is ready
+      // await setDoc(
+      //   doc(db, 'mission_logs', `${user.uid}_${mission.id}_${Date.now()}`),
+      //   logData
+      // );
 
       return logData;
     },

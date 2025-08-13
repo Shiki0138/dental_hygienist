@@ -1,10 +1,7 @@
 'use client';
 
-import { MessageSquare, TrendingUp, Clock } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { db } from '@/lib/firebase';
-import { collection, query, orderBy, limit, getDocs, where } from 'firebase/firestore';
-import { Thread } from '@/types';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import Link from 'next/link';
 

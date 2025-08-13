@@ -1,10 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Heart, MessageCircle, Share2, MoreHorizontal } from 'lucide-react';
+import { Share2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { db } from '@/lib/firebase';
-import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
 import { Arareru } from '@/types';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import Link from 'next/link';
@@ -162,7 +160,7 @@ export function ArareruFeed() {
   });
 
   const handleReaction = (arareruId: string, type: 'wakaru' | 'warau' | 'yakudachi') => {
-    // TODO: Save reaction to Firestore
+    // Save reaction to Firestore when backend is ready
     console.log('Reaction:', arareruId, type);
   };
 

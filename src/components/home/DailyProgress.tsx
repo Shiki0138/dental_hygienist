@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle, Circle, Lock } from 'lucide-react';
+import { CheckCircle, Lock } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 interface ProgressItem {

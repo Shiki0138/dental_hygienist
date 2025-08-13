@@ -1,10 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Bookmark, Share2, ChevronRight } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { db } from '@/lib/firebase';
-import { doc, getDoc } from 'firebase/firestore';
 import { ContentCard } from '@/types';
 import { formatDate } from '@/lib/utils';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
@@ -16,12 +14,10 @@ export function TodayCard() {
   const { data: card, isLoading } = useQuery({
     queryKey: ['todayCard', today],
     queryFn: async () => {
-      const docRef = doc(db, 'daily_content', today);
-      const docSnap = await getDoc(docRef);
-      
-      if (docSnap.exists()) {
-        return docSnap.data().todayCard as ContentCard;
-      }
+      // Demo mode: return static content
+      // When Firebase is ready, use:
+      // const docRef = doc(db, 'daily_content', today);
+      // const docSnap = await getDoc(docRef);
       
       // Fallback card for demo
       return {
@@ -55,7 +51,7 @@ export function TodayCard() {
 
   const handleSave = () => {
     setIsSaved(!isSaved);
-    // TODO: Save to Firestore
+    // Save to Firestore when backend is ready
   };
 
   const handleShare = async () => {
