@@ -7,10 +7,9 @@ import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/', icon: Home, label: 'ホーム' },
+  { href: '/tips', icon: BookOpen, label: '便利情報' },
   { href: '/forum', icon: MessageSquare, label: '相談' },
-  { href: '/arareru/new', icon: PlusCircle, label: '投稿' },
-  { href: '/saved', icon: BookOpen, label: '保存' },
-  { href: '/profile', icon: User, label: 'マイ' },
+  { href: '/arareru', icon: User, label: 'あるある' },
 ];
 
 export function BottomNav() {
